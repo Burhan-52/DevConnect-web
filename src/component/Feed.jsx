@@ -29,11 +29,17 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  if (!feed) return;
+
+  if (feed.length === 0) {
+    return <>No user is available</>;
+  }
+
   return (
     <>
       {feed && (
         <div className="flex justify-center my-5">
-          <UserCard user={feed[1]} />
+          <UserCard user={feed[0]} />
         </div>
       )}
     </>
