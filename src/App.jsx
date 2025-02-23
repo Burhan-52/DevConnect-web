@@ -11,7 +11,6 @@ import Requests from "./component/Requests";
 import Chat from "./component/Chat";
 import Premium from "./component/Premium";
 import ForgotPassword from "./component/ForgotPassword";
-import TestS from "./component/TestS";
 import { ResetPassword } from "./component/ResetPassword";
 import Search from "./component/Search";
 import Message from "./component/Message";
@@ -32,7 +31,7 @@ function App() {
               <Route path="/premium" element={<Premium />} />
               <Route path="/password/reset" element={<ForgotPassword />} />
               <Route path="/password/reset/:id/:token" element={<ResetPassword />} />
-              <Route path="/test" element={<TestS />} />
+              {/* <Route path="/test" element={<TestS />} /> */}
               <Route path="/search" element={<Search />} />
               <Route path="/message" element={<Message />} />
             </Route>
