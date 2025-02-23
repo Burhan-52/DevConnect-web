@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { BASE_URL } from "../constant";
 import { addConnectionRequest } from "../utils/slice/connectionsRequest";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connection);
@@ -21,30 +22,49 @@ const Connections = () => {
     userConnections();
   }, []);
 
+  if (!connections) return null;
+
+  if (connections.length === 0) {
+    return (
+      <div className="text-center text-gray-600 mt-10">
+        No connections found
+      </div>
+    );
+  }
+
   return (
-    <>
-      {connections &&
-        connections.map((connection) => {
-          const { firstName, lastName, about, age, gender, photoUrl } =
-            connection;
-          return (
-            <div className="flex justify-center my-5 gap-5 bg-base-300 w-1/2 mx-auto py-4 rounded-lg">
+    <div className="bg-base-100 w-full max-w-2xl mx-auto py-6 rounded-lg shadow-lg mt-10 p-6">
+    <h2 className="text-2xl font-semibold text-center mb-6">Your Connections</h2>
+    <div className="space-y-6">
+      {connections.map((connection) => {
+        const { _id, firstName, lastName, about, age, gender, photoUrl } = connection;
+        return (
+          <div
+            key={_id}
+            className="flex flex-col sm:flex-row items-center sm:justify-between bg-base-200 p-4 rounded-lg shadow-md gap-4"
+          >
+            <div className="flex items-center gap-4">
+              <img
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gray-400"
+                src={photoUrl}
+                alt="Profile"
+              />
               <div>
-                <img className="w-20 h-20 rounded-full" src={photoUrl} />
-              </div>
-              <div>
-                <div>{firstName + " " + lastName}</div>
-                <div>
-                  {age && gender && (
-                    <div>{age + ", " + gender}</div>
-                  )}
-                </div>
-                <div>{about}</div>
+                <div className="text-lg font-medium">{firstName + " " + lastName}</div>
+                <div className="text-gray-700">{age && gender && `${age}, ${gender}`}</div>
+                <div className="text-gray-600 text-sm mt-1">{about}</div>
               </div>
             </div>
-          );
-        })}
-    </>
+            <Link to={`/chat/${_id}`} className="w-full sm:w-auto">
+              <button className="btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md">
+                Chat
+              </button>
+            </Link>
+          </div>
+        );
+      })}
+    </div>
+  </div>
   );
 };
 

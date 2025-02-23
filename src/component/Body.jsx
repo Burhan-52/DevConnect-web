@@ -6,6 +6,7 @@ import axios from "axios";
 import { BASE_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { adduser } from "../utils/slice/userSlice";
+import Drawer from "./Drawer";
 
 const Body = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,10 @@ const Body = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <div className="flex ">
+        <Drawer />
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

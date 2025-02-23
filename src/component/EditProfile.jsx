@@ -52,13 +52,13 @@ const EditProfile = ({ user }) => {
   return (
     <>
       {toast && (
-        <div className="toast toast-top toast-center">
+        <div className="toast toast-top toast-center z-10">
           <div className="alert alert-success">
             <span>Profile Updated successfully ✅</span>
           </div>
         </div>
       )}
-      <div className="flex justify-center my-5">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-8 w-full px-4">
         <div className="card bg-base-100 w-96 shadow-xl">
           <div className="card-body">
             <h2 className="card-title">Edit Profile</h2>
@@ -190,7 +190,10 @@ const EditProfile = ({ user }) => {
             </div>
           </div>
         </div>
-        <UserCard user={profile} />
+        <div className="w-full max-w-sm lg:max-w-md">
+        <h2 className="card-title">Live Preview</h2>
+          <UserCard user={profile} />
+        </div>
       </div>
     </>
   );

@@ -1,36 +1,26 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router";
-import { removeUser } from "../utils/slice/userSlice";
-import axios from "axios";
-import { BASE_URL } from "../constant";
-import { removeFeed } from "../utils/slice/feedSlice";
+import { Link } from "react-router";
+import config from "../../config.json";
+import { CiMenuBurger } from "react-icons/ci";
+import { toggleMenu } from "../utils/slice/toggleMenu";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((store) => store.user);
 
-  const handleLogout = async () => {
-    console.log("hello");
-    const res = await axios.post(
-      BASE_URL + "/logout",
-      {},
-      { withCredentials: true }
-    );
-
-    if (res.data.success) {
-      dispatch(removeUser());
-      dispatch(removeFeed());
-      navigate("/login");
-    }
+  const handletoggle = () => {
+    dispatch(toggleMenu());
   };
 
   return (
     <div className="navbar bg-base-200">
-      <div className="flex-1">
+      <div className="ml-0 cursor-pointer z-20 md:ml-5">
+        {user && <CiMenuBurger onClick={handletoggle} size={30} />}
+      </div>
+      <div className="flex-1 ml-4">
         <Link to={"/"} className="btn btn-ghost text-xl">
-          🚀 Dev Tinder
+          {"🚀" + config.title}
         </Link>
       </div>
       <div className="flex-none gap-2">
@@ -45,26 +35,6 @@ const Navbar = () => {
                 <img alt="User Photo" src={user.data.photoUrl} />
               </div>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link to={"/profile"} className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </Link>
-              </li>
-              <li>
-                <Link to={"/connections"}>Connection</Link>
-              </li>
-              <li>
-                <Link to={"/requests"}>Request</Link>
-              </li>
-              <li>
-                <button onClick={handleLogout}>Logout</button>
-              </li>
-            </ul>
           </div>
         )}
       </div>

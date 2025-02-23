@@ -4,6 +4,7 @@ import { BASE_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/slice/feedSlice";
 import UserCard from "./UserCard";
+import Drawer from "./Drawer";
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
@@ -37,11 +38,13 @@ const Feed = () => {
 
   return (
     <>
+    <div className="w-full">
       {feed && (
-        <div className="flex justify-center my-5">
+        <div className="height flex justify-center items-center p-5">
           <UserCard user={feed[0]} />
         </div>
       )}
+      </div>
     </>
   );
 };

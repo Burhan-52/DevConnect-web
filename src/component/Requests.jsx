@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest } from "../utils/slice/requestSlice";
+import { addRequest, removeRequest } from "../utils/slice/requestSlice";
 import { BASE_URL } from "../constant";
 
 const Requests = () => {
@@ -25,6 +25,9 @@ const Requests = () => {
         {},
         { withCredentials: true }
       );
+      if (res.data.success) {
+        dispatch(removeRequest({ id }));
+      }
       console.log("accept and reject the reject " + res);
     } catch (error) {
       console.log(error.message);
@@ -35,36 +38,43 @@ const Requests = () => {
     userRequests();
   }, []);
 
-  if (!requests) {
-    return <div>Data not found</div>;
+  if (!requests) return;
+
+  if (requests.length === 0) {
+    return <div>request not found</div>;
   }
 
   return (
-    <div>
-      {requests &&
-        requests.map((request) => {
-          const { firstName, lastName, about, age, gender, photoUrl } =
-            request.fromUserId;
+    <div className="bg-base-100 w-full max-w-2xl mx-auto py-6 rounded-lg shadow-lg mt-10 p-6">
+      <h2 className="text-2xl font-semibold text-center mb-6">Friend Requests</h2>
+      <div className="space-y-6">
+        {requests.map((request) => {
+          const { firstName, lastName, photoUrl } = request.fromUserId;
           const { _id } = request;
           return (
-            <div className="flex justify-center items-center my-5 gap-5 bg-base-300  mx-auto py-4 rounded-lg w-1/2">
-              <div>
-                <img className="w-20 h-20 rounded-full" src={photoUrl} />
+            <div
+              key={_id}
+              className="flex flex-col sm:flex-row items-center sm:justify-between bg-base-200 p-4 rounded-lg shadow-md gap-4"
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gray-400"
+                  src={photoUrl}
+                  alt="Profile"
+                />
+                <div>
+                  <div className="text-lg font-medium">{firstName + " " + lastName}</div>
+                </div>
               </div>
-              <div>
-                <div>{firstName + " " + lastName}</div>
-                <div>{age && gender && <div>{age + ", " + gender}</div>}</div>
-                <div>{about}</div>
-              </div>
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md"
                   onClick={() => handleAcceptReject("accepted", _id)}
                 >
                   Accept
                 </button>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md"
                   onClick={() => handleAcceptReject("rejected", _id)}
                 >
                   Reject
@@ -73,6 +83,7 @@ const Requests = () => {
             </div>
           );
         })}
+      </div>
     </div>
   );
 };
