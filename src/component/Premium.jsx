@@ -5,13 +5,19 @@ import { BASE_URL } from "../constant";
 const Premium = () => {
   const [isUserPremium, setIsUserPremium] = useState(false);
   const verifyPayment = async () => {
-    const payment = await axios.get(BASE_URL + "/payment/verify", {
-      withCredentials: true,
-    });
+    try {
+      const payment = await axios.get(BASE_URL + "/payment/verify", {
+        withCredentials: true,
+      });
 
-    console.log(payment);
+      console.log(payment);
 
-    setIsUserPremium(payment.data.data.isPremium);
+      if (payment.data.success) {
+        setIsUserPremium(payment.data.isPremium);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -19,6 +25,7 @@ const Premium = () => {
   }, []);
 
   const handleClick = async (type) => {
+    console.log("bdehjjv")
     const order = await axios.post(
       BASE_URL + "/payment/create",
       { membershipType: type },
@@ -61,7 +68,7 @@ const Premium = () => {
           {/* Silver Plan */}
           <div className="card bg-base-200 rounded-lg shadow-lg p-6 flex flex-col items-center w-full ">
             <div className="text-center">
-              <div className="text-2xl font-bold ">$29</div>
+              <div className="text-2xl font-bold ">₹29</div>
               <div className="text-sm ">per month</div>
             </div>
             <ul className="my-4 space-y-2">
@@ -85,13 +92,14 @@ const Premium = () => {
           {/* Gold Plan */}
           <div className="card bg-base-200 rounded-lg shadow-lg p-6 flex flex-col items-center w-full ">
             <div className="text-center">
-              <div className="text-2xl font-bold ">$49</div>
+              <div className="text-2xl font-bold ">₹49</div>
               <div className="text-sm ">per month</div>
             </div>
             <ul className="my-4 space-y-2">
               <li>✅ Chat with other users</li>
               <li>✅ 100 connections per day</li>
-              <li>✅ Gold badge & priority support</li>
+              <li>✅ Blue tick</li>
+              <li>✅ priority support</li>
             </ul>
             <button
               className="btn btn-primary w-full py-2 mt-auto hover:bg-blue-700 transition duration-300"

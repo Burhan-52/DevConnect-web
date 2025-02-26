@@ -3,10 +3,10 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { BASE_URL } from "../constant";
 import { removeFeed } from "../utils/slice/feedSlice";
-
+import { MdOutlineWorkspacePremium } from "react-icons/md";
 const UserCard = ({ user }) => {
   const dispatch = useDispatch();
-  const { _id, firstName, lastName, age, skills, about, gender, photoUrl } =
+  const { _id, firstName, lastName, age, skills, about, gender, photoUrl,isPremium } =
     user;
 
   const handleInterestIgnore = async (status, id) => {
@@ -36,7 +36,7 @@ const UserCard = ({ user }) => {
         />
       </div>
       <div className="card-body">
-        <h2 className="card-title">{firstName + " " + lastName}</h2>
+        <h2 className="card-title">{firstName + " " + lastName} {isPremium && <MdOutlineWorkspacePremium size={25}/>}</h2>
         {age && gender && <h4 className="card-title">{age + ", " + gender}</h4>}
         <p>{about}</p>
         <div className="card-actions justify-center">

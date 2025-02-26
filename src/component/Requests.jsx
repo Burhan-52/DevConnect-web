@@ -41,7 +41,9 @@ const Requests = () => {
   if (!requests) return;
 
   if (requests.length === 0) {
-    return <div>request not found</div>;
+    return <div className="text-center text-gray-600 mt-10">
+    No requests found
+  </div>
   }
 
   return (

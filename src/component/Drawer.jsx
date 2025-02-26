@@ -51,7 +51,7 @@ const Drawer = () => {
         className=" space-y-2 menu menu-sm dropdown-content w-52"
       >
         <li className="p-2 rounded">
-          <Link to={"/"} className="flex items-center gap-2">
+          <Link to={"/feed"} className="flex items-center gap-2">
             <IoMdHome /> Home
           </Link>
         </li>

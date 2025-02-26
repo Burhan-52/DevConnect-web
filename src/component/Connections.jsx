@@ -34,37 +34,58 @@ const Connections = () => {
 
   return (
     <div className="bg-base-100 w-full max-w-2xl mx-auto py-6 rounded-lg shadow-lg mt-10 p-6">
-    <h2 className="text-2xl font-semibold text-center mb-6">Your Connections</h2>
-    <div className="space-y-6">
-      {connections.map((connection) => {
-        const { _id, firstName, lastName, about, age, gender, photoUrl } = connection;
-        return (
-          <div
-            key={_id}
-            className="flex flex-col sm:flex-row items-center sm:justify-between bg-base-200 p-4 rounded-lg shadow-md gap-4"
-          >
-            <div className="flex items-center gap-4">
-              <img
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gray-400"
-                src={photoUrl}
-                alt="Profile"
-              />
-              <div>
-                <div className="text-lg font-medium">{firstName + " " + lastName}</div>
-                <div className="text-gray-700">{age && gender && `${age}, ${gender}`}</div>
-                <div className="text-gray-600 text-sm mt-1">{about}</div>
+      <h2 className="text-2xl font-semibold text-center mb-6">
+        Your Connections
+      </h2>
+      <div className="space-y-6">
+        {connections.map((connection) => {
+          const {
+            _id,
+            firstName,
+            lastName,
+            about,
+            age,
+            gender,
+            photoUrl,
+            isPremium,
+          } = connection;
+          return (
+            <div
+              key={_id}
+              className="flex flex-col sm:flex-row items-center sm:justify-between bg-base-200 p-4 rounded-lg shadow-md gap-4"
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gray-400"
+                  src={photoUrl}
+                  alt="Profile"
+                />
+                <div>
+                  <div className="text-lg font-medium">
+                    {firstName + " " + lastName}
+                  </div>
+                  <div className="text-gray-700">
+                    {age && gender && `${age}, ${gender}`}
+                  </div>
+                  <div className="text-gray-600 text-sm mt-1">{about}</div>
+                </div>
               </div>
+              <Link
+                to={isPremium ? `/chat/${_id}` : "#"}
+                className="w-full sm:w-auto "
+              >
+                <button
+                  title="Only Premium user can Chat"
+                  className={`btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md  ${!isPremium ? " cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+                >
+                  Chat
+                </button>
+              </Link>
             </div>
-            <Link to={`/chat/${_id}`} className="w-full sm:w-auto">
-              <button className="btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md">
-                Chat
-              </button>
-            </Link>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
-  </div>
   );
 };
 

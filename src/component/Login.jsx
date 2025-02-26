@@ -5,33 +5,38 @@ import { adduser } from "../utils/slice/userSlice";
 import { BASE_URL } from "../constant";
 import { Link, useNavigate } from "react-router";
 import config from "../../config.json";
-import { toggleMenu } from "../utils/slice/toggleMenu";
-import { FaSlack } from "react-icons/fa";
+import { closeMenu, toggleMenu } from "../utils/slice/toggleMenu";
 import Toast from "./Toast";
+import VerifyOtp from "./VerifyOtp";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("burhanuddinrampurawala110@gmail.com");
+  const [password, setPassword] = useState("John@123");
+  const [firstName, setFirstName] = useState("rohan");
+  const [lastName, setLastName] = useState("shah");
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState(false);
 
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState("");
+  const [showOtp, setShowOtp] = useState(false);
 
   const user = useSelector((store) => store.user);
 
+  const [userId, setUserId] = useState("");
+
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/feed");
     }
   }, []);
 
   const handleLogin = async () => {
+    console.log("login");
     try {
+      setError("")
       const res = await axios.post(
         BASE_URL + "/login",
         {
@@ -46,13 +51,13 @@ const Login = () => {
       if (res.data.success) {
         dispatch(adduser(res.data));
         dispatch(toggleMenu());
-        return navigate("/");
+        return navigate("/feed");
       }
     } catch (error) {
       console.log("dbhe", error);
-      if (error.status == 400) {
+      if (error.status) {
         setToast(true);
-        setError(error.response.data.error);
+        setError(error?.response?.data?.message ?? error.response.data.error);
         setTimeout(() => {
           setToast(false);
         }, 3000);
@@ -61,19 +66,31 @@ const Login = () => {
   };
 
   const handleSignUp = async () => {
-    const res = await axios.post(
-      BASE_URL + "/signup",
-      {
-        firstName,
-        lastName,
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
-    if (res.data.success) {
-      dispatch(adduser(res.data));
-      return navigate("/profile");
+    setError("")
+    try {
+      const res = await axios.post(
+        BASE_URL + "/signup",
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        console.log(res);
+        dispatch(closeMenu());
+        setShowOtp(true);
+        setUserId(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+      setToast(true);
+      setError(err.response.data.message ?? err.response.data.error);
+      setTimeout(() => {
+        setToast(false);
+      }, 3000);
     }
   };
 
@@ -87,7 +104,7 @@ const Login = () => {
             <h2 className="card-title font-extrabold text-3xl mx-auto pb-10">
               {config.title}
             </h2>
-            {!isLogin && (
+            {!isLogin && !showOtp && (
               <>
                 <div>
                   <label className="input input-bordered flex items-center gap-2">
@@ -113,54 +130,58 @@ const Login = () => {
                 </div>
               </>
             )}
-            <div>
-              <label className="input input-bordered flex items-center gap-2">
-                <input
-                  type="text"
-                  className="grow"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </label>
-            </div>
-            <div>
-              <label className="input input-bordered flex items-center gap-2">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="grow"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <span
-                  className="font-semibold cursor-pointer"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </span>
-              </label>
-            </div>
-            <div className="card-actions justify-center">
-              <button
-                className="btn btn-primary w-full mt-5"
-                onClick={isLogin ? handleLogin : handleSignUp}
-              >
-                {isLogin ? "Login" : "Sign Up"}
-              </button>
-            </div>
+            {!showOtp && (
+              <>
+                <div>
+                  <label className="input input-bordered flex items-center gap-2">
+                    <input
+                      type="text"
+                      className="grow"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </label>
+                </div>
+                <div>
+                  <label className="input input-bordered flex items-center gap-2">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="grow"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span
+                      className="font-semibold cursor-pointer"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </span>
+                  </label>
+                </div>
+                <div className="card-actions justify-center">
+                  <button
+                    className="btn btn-primary w-full mt-5"
+                    onClick={isLogin ? handleLogin : handleSignUp}
+                  >
+                    {isLogin ? "Login" : "Sign Up"}
+                  </button>
+                </div>
 
-            <div className="mx-auto mt-5">
-              <div>
-                {isLogin ? " Don't have an account? " : "Have an account? "}
-                <span
-                  className="font-bold cursor-pointer"
-                  onClick={() => setIsLogin((prev) => !prev)}
-                >
-                  {isLogin ? "Sign up" : "Log In"}
-                </span>
-              </div>
-            </div>
+                <div className="mx-auto mt-5">
+                  <div>
+                    {isLogin ? " Don't have an account? " : "Have an account? "}
+                    <span
+                      className="font-bold cursor-pointer"
+                      onClick={() => setIsLogin((prev) => !prev)}
+                    >
+                      {isLogin ? "Sign up" : "Log In"}
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
 
             {isLogin && (
               <>
@@ -173,6 +194,7 @@ const Login = () => {
               </>
             )}
           </div>
+          {showOtp && <VerifyOtp userId={userId} />}
         </div>
       </div>
     </>
