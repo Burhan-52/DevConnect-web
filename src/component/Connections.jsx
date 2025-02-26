@@ -8,6 +8,8 @@ import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 const Connections = () => {
   const user = useSelector((store) => store.user);
+  console.log("user", user.data.isPremium);
+
   const connections = useSelector((store) => store.connection);
   const dispatch = useDispatch();
 
@@ -35,11 +37,11 @@ const Connections = () => {
   }
 
   return (
-    <div className="bg-base-100 w-full max-w-2xl mx-auto py-6 rounded-lg shadow-lg mt-10 p-6">
+    <div className="bg-base-100 w-full max-w-2xl mx-auto py-6 rounded-lg shadow-lg mt-10 p-6 ">
       <h2 className="text-2xl font-semibold text-center mb-6">
         Your Connections
       </h2>
-      <div className="space-y-6">
+      <div className="space-y-6 ">
         {connections.map((connection) => {
           const {
             _id,
@@ -51,6 +53,8 @@ const Connections = () => {
             photoUrl,
             isPremium,
           } = connection;
+
+          console.log("isPremium", isPremium);
           return (
             <div
               key={_id}
@@ -64,7 +68,8 @@ const Connections = () => {
                 />
                 <div>
                   <div className="text-lg font-medium">
-                    {firstName + " " + lastName} {isPremium && <MdOutlineWorkspacePremium size={25}/>}
+                    {firstName + " " + lastName}{" "}
+                    {isPremium && <MdOutlineWorkspacePremium size={25} />}
                   </div>
                   <div className="text-gray-700">
                     {age && gender && `${age}, ${gender}`}
@@ -73,7 +78,7 @@ const Connections = () => {
                 </div>
               </div>
               <Link
-                to={user.data.isPremium || isPremium ? `/chat/${_id}` : "#"}
+                to={!user.data.isPremium || !isPremium ? "#" : `/chat/${_id}`}
                 className="w-full sm:w-auto "
               >
                 <button

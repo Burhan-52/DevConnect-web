@@ -12,10 +12,10 @@ import VerifyOtp from "./VerifyOtp";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("burhanuddinrampurawala110@gmail.com");
-  const [password, setPassword] = useState("John@123");
-  const [firstName, setFirstName] = useState("rohan");
-  const [lastName, setLastName] = useState("shah");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState(false);
 
