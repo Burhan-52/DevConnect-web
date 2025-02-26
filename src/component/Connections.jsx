@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 const Connections = () => {
+  const user = useSelector((store) => store.user);
   const connections = useSelector((store) => store.connection);
   const dispatch = useDispatch();
 
@@ -71,12 +72,16 @@ const Connections = () => {
                 </div>
               </div>
               <Link
-                to={isPremium ? `/chat/${_id}` : "#"}
+                to={user.data.isPremium ? `/chat/${_id}` : "#"}
                 className="w-full sm:w-auto "
               >
                 <button
                   title="Only Premium user can Chat"
-                  className={`btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md  ${!isPremium ? " cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+                  className={`btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md  ${
+                    !user.data.isPremium 
+                      ? " cursor-not-allowed opacity-50"
+                      : "cursor-pointer"
+                  }`}
                 >
                   Chat
                 </button>
