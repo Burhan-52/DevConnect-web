@@ -79,7 +79,7 @@ const Connections = () => {
                 <button
                   title="Both user need to Premium for Chat"
                   className={`btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md  ${
-                    !user.data.isPremium && !isPremium
+                    !user.data.isPremium || !isPremium
                       ? " cursor-not-allowed opacity-50"
                       : "cursor-pointer"
                   }`}
