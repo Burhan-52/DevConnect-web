@@ -4,6 +4,7 @@ import { BASE_URL } from "../constant";
 import { addConnectionRequest } from "../utils/slice/connectionsRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
+import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 const Connections = () => {
   const user = useSelector((store) => store.user);
@@ -63,7 +64,7 @@ const Connections = () => {
                 />
                 <div>
                   <div className="text-lg font-medium">
-                    {firstName + " " + lastName}
+                    {firstName + " " + lastName} {isPremium && <MdOutlineWorkspacePremium size={25}/>}
                   </div>
                   <div className="text-gray-700">
                     {age && gender && `${age}, ${gender}`}
@@ -72,13 +73,13 @@ const Connections = () => {
                 </div>
               </div>
               <Link
-                to={user.data.isPremium ? `/chat/${_id}` : "#"}
+                to={user.data.isPremium && isPremium ? `/chat/${_id}` : "#"}
                 className="w-full sm:w-auto "
               >
                 <button
-                  title="Only Premium user can Chat"
+                  title="Both user need to Premium for Chat"
                   className={`btn btn-primary w-full sm:w-auto px-6 py-2 rounded-lg shadow-md  ${
-                    !user.data.isPremium 
+                    !user.data.isPremium && !isPremium
                       ? " cursor-not-allowed opacity-50"
                       : "cursor-pointer"
                   }`}
