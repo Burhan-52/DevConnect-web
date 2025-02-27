@@ -92,14 +92,14 @@ const VerifyOtp = ({ userId, email, setIsLogin, setShowOtp }) => {
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
           placeholder="OTP..."
-          max={"6"}
+          max={"4"}
           required
         />
         <div className="flex gap-7">
           <button
             className={` mt-4 w-40 ${otp.length <= 5 ? "" : "btn btn-primary"}`}
             onClick={(e) => handleClick(e)}
-            disabled={otp.length <= 5}
+            disabled={otp.length <= 3}
           >
             Verify Otp
           </button>
