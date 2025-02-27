@@ -10,9 +10,16 @@ const userSlice = createSlice({
     removeUser: (state, action) => {
       return null;
     },
+    modifyUser: (state) => {
+      if (state.data.isPremium) {
+        return state;
+      } else {
+        state.data = { ...state, [state.data.isPremium]: true };
+      }
+    },
   },
 });
 
-export const { adduser, removeUser } = userSlice.actions;
+export const { adduser, removeUser, modifyUser } = userSlice.actions;
 
 export default userSlice.reducer;

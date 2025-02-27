@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../constant";
+import { modifyUser } from "../utils/slice/userSlice";
 
 const Premium = () => {
+  const userData = useSelector((store) => store.user);
+
   const [isUserPremium, setIsUserPremium] = useState(false);
   const verifyPayment = async () => {
     try {
@@ -13,6 +16,7 @@ const Premium = () => {
       console.log(payment);
 
       if (payment.data.success) {
+        dispatch(modifyUser(userData));
         setIsUserPremium(payment.data.isPremium);
       }
     } catch (err) {
@@ -25,7 +29,7 @@ const Premium = () => {
   }, []);
 
   const handleClick = async (type) => {
-    console.log("bdehjjv")
+    console.log("bdehjjv");
     const order = await axios.post(
       BASE_URL + "/payment/create",
       { membershipType: type },
