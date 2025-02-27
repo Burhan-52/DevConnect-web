@@ -6,6 +6,9 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const sendPasswordResetEmail = async (e) => {
+    if(!email){
+      return
+    }
     // e.preventDefault();
     const res = await axios.post(
       BASE_URL + "/verify/email",
@@ -21,17 +24,20 @@ const ForgotPassword = () => {
             <div>
               <label className="input input-bordered flex items-center gap-2">
                 <input
-                  type="text"
+                  type="email"
                   className="grow"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </label>
             </div>
             <div className="card-actions justify-center">
               <button
-                className="btn btn-primary w-full mt-5"
+                className={`btn btn-primary w-full mt-5 ${
+                  !email ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 onClick={sendPasswordResetEmail}
               >
                 Send Link

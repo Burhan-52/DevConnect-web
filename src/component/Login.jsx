@@ -12,10 +12,10 @@ import VerifyOtp from "./VerifyOtp";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("burhanuddinrampurawala110@gmail.com");
+  const [password, setPassword] = useState("Burhan@123");
+  const [firstName, setFirstName] = useState("Burhan");
+  const [lastName, setLastName] = useState("rampura");
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState(false);
 
@@ -34,9 +34,12 @@ const Login = () => {
   }, []);
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      return;
+    }
     console.log("login");
     try {
-      setError("")
+      setError("");
       const res = await axios.post(
         BASE_URL + "/login",
         {
@@ -66,7 +69,10 @@ const Login = () => {
   };
 
   const handleSignUp = async () => {
-    setError("")
+    if (!firstName || !lastName || !email || !password) {
+      return;
+    }
+    setError("");
     try {
       const res = await axios.post(
         BASE_URL + "/signup",
@@ -101,7 +107,7 @@ const Login = () => {
       <div className="height flex items-center justify-center p-5 w-full">
         <div className="card bg-base-100 w-96 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title font-extrabold text-3xl mx-auto pb-10">
+            <h2 className="card-title font-extrabold text-3xl mx-auto pb-5">
               {config.title}
             </h2>
             {!isLogin && !showOtp && (
@@ -162,7 +168,20 @@ const Login = () => {
                 </div>
                 <div className="card-actions justify-center">
                   <button
-                    className="btn btn-primary w-full mt-5"
+                    // disabled={
+                    //   isLogin
+                    //     ? !email || !password
+                    //     : !firstName || !lastName || !email || !password
+                    // }
+                    className={`btn btn-primary w-full mt-5 ${
+                      (
+                        isLogin
+                          ? !email || !password
+                          : !firstName || !lastName || !email || !password
+                      )
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
+                    }`}
                     onClick={isLogin ? handleLogin : handleSignUp}
                   >
                     {isLogin ? "Login" : "Sign Up"}
@@ -194,7 +213,14 @@ const Login = () => {
               </>
             )}
           </div>
-          {showOtp && <VerifyOtp userId={userId} />}
+          {showOtp && (
+            <VerifyOtp
+              userId={userId}
+              email={email}
+              setIsLogin={setIsLogin}
+              setShowOtp={setShowOtp}
+            />
+          )}
         </div>
       </div>
     </>

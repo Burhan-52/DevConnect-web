@@ -51,7 +51,7 @@ const Premium = () => {
         color: "#3399cc",
       },
 
-      handler: verifyPayment(),
+      handler: verifyPayment,
     };
 
     const rzp = new window.Razorpay(options);

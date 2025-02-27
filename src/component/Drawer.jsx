@@ -15,6 +15,7 @@ import {
   MdStars,
 } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
+import { clearFeed } from "../utils/slice/feedSlice";
 
 const Drawer = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Drawer = () => {
     if (res.data.success) {
       dispatch(removeUser());
       dispatch(closeMenu());
+      dispatch(clearFeed())
       navigate("/login");
     }
   };
