@@ -97,7 +97,7 @@ const VerifyOtp = ({ userId, email, setIsLogin, setShowOtp }) => {
         />
         <div className="flex gap-7">
           <button
-            className={` mt-4 w-40 ${otp.length <= 5 ? "" : "btn btn-primary"}`}
+            className={` mt-4 w-40 ${otp.length <= 3 ? "" : "btn btn-primary"}`}
             onClick={(e) => handleClick(e)}
             disabled={otp.length <= 3}
           >
