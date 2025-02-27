@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../constant";
 import { modifyUser } from "../utils/slice/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Premium = () => {
+  const dispatch = useDispatch();
   const userData = useSelector((store) => store.user);
 
   const [isUserPremium, setIsUserPremium] = useState(false);
