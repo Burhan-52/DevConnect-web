@@ -14,7 +14,7 @@ const userSlice = createSlice({
       if (state.data.isPremium) {
         return state;
       } else {
-        state.data = { ...state, [state.data.isPremium]: true };
+        state.data = { ...state, isPremium: true };
       }
     },
   },
