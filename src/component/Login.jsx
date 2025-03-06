@@ -86,9 +86,11 @@ const Login = () => {
       );
       if (res.data.success) {
         console.log(res);
-        dispatch(closeMenu());
-        setShowOtp(true);
-        setUserId(res.data);
+        dispatch(toggleMenu());
+        navigate("/feed")
+        dispatch(adduser(res.data));
+        // setShowOtp(true);
+        // setUserId(res.data);
       }
     } catch (err) {
       console.log(err);
@@ -213,14 +215,14 @@ const Login = () => {
               </>
             )}
           </div>
-          {showOtp && (
+          {/* {showOtp && (
             <VerifyOtp
               userId={userId}
               email={email}
               setIsLogin={setIsLogin}
               setShowOtp={setShowOtp}
             />
-          )}
+          )} */}
         </div>
       </div>
     </>

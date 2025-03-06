@@ -87,6 +87,11 @@ const Drawer = () => {
             <LuMessageCircleMore /> Message
           </Link>
         </li>
+        {/* <li className="p-2 rounded">
+          <Link to={"/test"} className="flex items-center gap-2">
+            <LuMessageCircleMore /> Message
+          </Link>
+        </li> */}
         <li className="p-2 rounded">
           <button onClick={handleLogout} className="flex items-center gap-2">
             <BiLogOut /> Logout
