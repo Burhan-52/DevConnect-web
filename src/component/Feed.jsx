@@ -14,7 +14,7 @@ const Feed = () => {
   const getFeed = async () => {
     try {
       const res = await axios.get(
-        `${BASE_URL}/user/feed?limit=3${cursor ? `&cursor=${cursor}` : ""}`,
+        `${BASE_URL}/user/feed?limit=10${cursor ? `&cursor=${cursor}` : ""}`,
         { withCredentials: true }
       );
 
